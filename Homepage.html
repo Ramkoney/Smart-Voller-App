@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+
+
+    <style>
+
+       
+body {
+    background-image: url('VollyPass.jpg'); background-repeat: no-repeat;background-size: cover;
+        
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+.container {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 350px;
+    text-align: center;
+}
+
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+body { font-family: Arial, sans-serif; padding: 20px; color:rgb(171, 13, 224);  background-image: url('VollyPass.jpg'); background-repeat: no-repeat;background-size: cover;}
+      
+button {
+    width: 100%;
+    background: #dcb126;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #8d1ca4;
+}
+
+
+.toggle-link {
+    display: block;
+    margin-top: 10px;
+    color: #903298;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+    .container {
+        width: 90%;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 id="formTitle">Login</h2>
+
+   
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <label for="email">Email:</label>
+            <input type="text" id="loginEmail" placeholder="Email" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="loginPassword" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+            <a class="toggle-link" onclick="showSignUp()">Sign Up Here</a>
+        </form>
+
+        
+        <form id="signUpForm" style="display:none;" onsubmit="handleSignup(event)">
+            <label for="name">Full Name:</label>
+            <input type="text" id="signupName" placeholder="Full Name" required><br>
+            <label for="email">Email:</label>
+            <input type="email" id="signupEmail" placeholder="Email" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="signupPassword" placeholder="Password" required><br>
+            <label for="confirmP">Confirm Password:</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required><br>
+            <button type="submit">Sign Up</button>
+            <a class="toggle-link" onclick="showLogin()">Login Here</a>
+        </form>
+    </div>
+
+    <script>
+        function showSignUp() {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("signUpForm").style.display = "block";
+            document.getElementById("formTitle").innerText = "Sign Up";
+        }
+
+        function showLogin() {
+            document.getElementById("signUpForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+            document.getElementById("formTitle").innerText = "Login";
+        }
+
+        function handleSignup(event) {
+            event.preventDefault(); 
+
+            const username = document.getElementById("signupName").value;
+            const email = document.getElementById("signupEmail").value;
+            const password = document.getElementById("signupPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            users.push({ username, email, password });
+            localStorage.setItem("users", JSON.stringify(users));
+
+            alert("Signup successful! You can now log in.");
+            showLogin();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault(); 
+
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                localStorage.setItem("loggedInUser", JSON.stringify(user));
+                alert("Login successful! Redirecting...");
+                window.location.href = "vB.html"; 
+            } else {
+                alert("Invalid email or password. Please try again.");
+            }
+        }
+    </script>
+
+</body>
+</html>

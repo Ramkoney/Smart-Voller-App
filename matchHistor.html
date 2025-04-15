@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #3498db;
+        }
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        .delete-btn {
+            padding: 5px 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        button {
+            background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+        }
+        button:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Match History</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Team A</th>
+                <th>Total Points A</th>
+                <th>Team B</th>
+                <th>Total Points B</th>
+                <th>Set 1</th>
+                <th>Set 2</th>
+                <th>Set 3</th>
+                <th>Team Gender</th>
+                <th>Score Keeper</th>
+                <th>Ref1</th>
+                <th>Ref2</th>
+                <th>Line1</th>
+                <th>Line2</th>
+                <th>Winner</th>
+                <th>Points</th>
+                <th>Pool</th>
+                <th>Match Date</th>
+                
+                <th>Action</th>
+                
+            </tr>
+        </thead>
+        <tbody id="historyTable">
+        </tbody>
+    </table>
+
+    <button onclick="goBack()">Go Back</button>
+    <button onclick="getfemaleResults()">Female Results</button>
+    <button onclick="getmaleResults()">Male Results</button>
+  
+    <script>
+         function goBack() {
+            window.location.href = "Results.html"; 
+        }
+
+        function getmaleResults() {
+            window.location.href="maleResults.html";
+            
+        }
+      function getfemaleResults(){
+        window.location.href="femResult.html";
+      }
+        function loadMatchHistory() {
+            let matchHistory = JSON.parse(localStorage.getItem("matchHistory")) || [];
+            let tableBody = document.getElementById("historyTable");
+            tableBody.innerHTML = ""; 
+
+            matchHistory.forEach((match, index) => {
+                let row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${match.aTeam}</td>
+                    <td>${match.totalPointsA}</td>
+                    <td>${match.bTeam}</td>
+                    <td>${match.totalPointsB}</td>
+                    <td>${match.sets[0].teamA}-${match.sets[0].teamB}</td>
+                    <td>${match.sets[1].teamA}-${match.sets[1].teamB}</td>
+                    <td>${match.sets[2].teamA}- ${match.sets[2].teamB}</td>
+                    <td>${match.teamGender}</td>
+                    <td>${match.skeeper}</td>
+                    <td>${match.ref1}</td>
+                    <td>${match.ref2}</td>
+                    <td>${match.line1}</td>
+                    <td>${match.line2}</td>
+                    <td>${match.winner}</td>
+                    <td>${match.winningPoints}</td>
+                    <td> ${match.pool} </td>
+                   <td> ${match.matchDate}</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteMatch(${index})">Delete</button>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function deleteMatch(index) {
+            let matchHistory = JSON.parse(localStorage.getItem("matchHistory")) || [];
+
+            if (index < 0 || index >= matchHistory.length) {
+                console.error("Record not found:", index);
+                return;
+            }
+
+            matchHistory.splice(index, 1); 
+            localStorage.setItem("matchHistory", JSON.stringify(matchHistory)); 
+            loadMatchHistory(); 
+        }
+
+        
+        loadMatchHistory();
+    </script>
+
+</body>
+</html>

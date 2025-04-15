@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Results</title>
+
+    <style>
+        #resultsImage{
+            align-items: center;
+            padding-left: 20px;
+            justify-content: center;
+            display:flex;
+
+
+        }
+        h2{
+            text-align: center;
+        }
+
+       button{
+        background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+            
+            
+
+            
+        }
+        .button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+
+       
+    </style>
+
+    </head>
+
+
+    <body>
+            <h2>Match Fixture & Results</h2>
+            <div id="resultsImage"></div>
+             <br><br>
+           
+             <div class="button-container">
+           <a href="matchHistor.html"><button type="button" id="viewMatchHistory" onclick="viewMatchHistory()">View Match History</button></a>
+            <button onclick="getfemaleResults()">Female Results</button>
+            <button onclick="getmaleResults()">Male Results</button>
+            <button onclick="goBack()">Go Back</button>
+      
+        </div>
+
+    <script>
+       
+       function   getfemaleResults(){
+        window.location.href="femResult.html";
+       }
+      function  getmaleResults(){
+        window.location.href="maleResults.html";
+      }
+    
+       function goBack(){
+        window.location.href="vB.html";
+     
+       }
+
+
+        window.onload = function(){
+
+            const resultsImageDiv = document.getElementById("resultsImage");
+            const imageData = sessionStorage.getItem("uploadedFile");
+
+            if (!imageData) {
+                resultsImageDiv.innerHTML = "<p>No match fixture found </p>";
+                return;
+            }
+                      const  imageElement = document.createElement("img");
+                      imageElement.src = imageData;
+                      imageElement.alt = "Uploaded Match Fixture";
+                      imageElement.style.width = "800px";
+                      imageElement.style.height = "500px";
+                      imageElement.style.alignItems ="center";
+                   
+                      resultsImageDiv.appendChild(imageElement);
+                
+            };
+           
+
+    </script>
+
+</body>
+
+    </html>
